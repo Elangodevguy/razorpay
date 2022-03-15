@@ -12,6 +12,7 @@ const Razorpay = require("razorpay");
 
 const cors = require("cors");
 app.use(cors());
+app.use(express.json());
 
 app.get("/", async function (req, res) {
   let razorpayInstance1 = new Razorpay({
@@ -24,23 +25,23 @@ app.get("/", async function (req, res) {
   res.json({ result });
 });
 
-app.get("/createLink", async function (req, res) {
+app.post("/createLink", async function (req, res) {
+  const { amount, amountInINR, email } = req.body;
   let razorpayInstance2 = new Razorpay({
     key_id: "rzp_live_6ooiZ2ylvMAB1f",
     key_secret: "90UmKBYwonhPWasWQ6fnNikE",
   });
   try {
     const result = await razorpayInstance2.paymentLink.create({
-      amount: 100000,
+      amount: amountInINR,
       currency: "INR",
       description: "For Hedonova",
       customer: {
-        name: "Elango Test",
-        email: "3elango@gmail.com",
+        email: email,
       },
       notes: {
-        amount: "130.85",
-        email: "3elango@gmail.com",
+        amount: amount,
+        email: email,
       },
     });
     res.json({ result: result });
