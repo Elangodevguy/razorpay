@@ -35,7 +35,7 @@ app.post("/createLink", async function (req, res) {
     const result = await razorpayInstance2.paymentLink.create({
       amount: amountInINR,
       currency: "INR",
-      description: "For Hedonova",
+      description: "Hedonova",
       customer: {
         email: email,
       },
@@ -43,6 +43,7 @@ app.post("/createLink", async function (req, res) {
         amount: amount,
         email: email,
       },
+      expire_by: Date.now() + 86400000,
     });
     res.json({ result: result });
   } catch (error) {
